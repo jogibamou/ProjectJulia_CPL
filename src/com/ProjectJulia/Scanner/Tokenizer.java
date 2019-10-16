@@ -38,9 +38,6 @@ public class Tokenizer {
     private static final String NE_OPERATOR         = "[!][=]";
     private static final String ADD_OPERATOR        = "[+]";
     private static final String SUB_OPERATOR        = "[-]";
-    
-    private static final String MOD_OPERATOR        = "[%]";
-
     private static final String MUL_OPERATOR        = "[^/|^*][*][^/|^*]";
     private static final String DIV_OPERATOR        = "[^/|^*][/][^/|^*]";
     private static final String POW_OPERATOR        = "[\\^]";
@@ -57,7 +54,8 @@ public class Tokenizer {
     private static final String DOT_PTS             = "[.]";
     private static final String LITERAL_TEXT        = "[^\"\\\\\\r\\n]*(?:\\\\.[^\"\\\\\\r\\n]*)*";
     private static final String OTHERS              = ".+";
-	
+    private static final String MOD_OPERATOR        = "[%]";
+
 	
     //==========================================================================
     //RSVP_[ELEMENT]
@@ -162,7 +160,8 @@ public class Tokenizer {
     public static final int WHITE_SPACE_N           = 6024;
     public static final int DOT_PTS_N               = 6025;
     public static final int LITERAL_TEXT_N          = 6026;
-    
+    private static final int MOD_OPERATOR_N         = 6027;
+
     
     //==========================================================================
     //RESERVED WORDS NUMBERS
@@ -240,9 +239,7 @@ public class Tokenizer {
     // =========================================================================
     
     public void add(String regex, int token) {
-    tokenInfos.add(
-        new TokenInfo(
-        Pattern.compile("^("+regex+")"), token));
+    	tokenInfos.add(new TokenInfo(Pattern.compile("^("+regex+")"), token));
     }
     
     // =========================================================================
@@ -291,6 +288,116 @@ public class Tokenizer {
     
     public LinkedList<Token> getTokens() {
         return tokens;
+    }
+    
+    public static Tokenizer initTokenizer(){
+        
+        //======================================================================
+        //The different tokenizer used will be taken from the lexical sample
+        //To this will be added a reader that will read through the file 
+        //That reader will provide the different lines to be read
+        //======================================================================
+        
+        Tokenizer tokenizer = new Tokenizer();
+        
+        
+        //======================================================================
+        //Reserved Words
+        //======================================================================
+        
+        tokenizer.add(RSVP_BEGI, RSVP_BEGI_N);       
+        tokenizer.add(RSVP_WHIL, RSVP_WHIL_N);       
+        tokenizer.add(RSVP_IF, RSVP_IF_N);       
+        tokenizer.add(RSVP_FOR, RSVP_FOR_N);       
+        tokenizer.add(RSVP_TRY, RSVP_TRY_N);       
+        tokenizer.add(RSVP_RETU, RSVP_RETU_N);       
+        tokenizer.add(RSVP_BRK, RSVP_BRK_N);       
+        tokenizer.add(RSVP_CONT, RSVP_CONT_N);
+        tokenizer.add(RSVP_FUNC, RSVP_FUNC_N);       
+        tokenizer.add(RSVP_MACR, RSVP_MACR_N);       
+        tokenizer.add(RSVP_QUOT, RSVP_QUOT_N);       
+        tokenizer.add(RSVP_LET, RSVP_LET_N);       
+        tokenizer.add(RSVP_LOCL, RSVP_LOCL_N);       
+        tokenizer.add(RSVP_GLOB, RSVP_GLOB_N);       
+        tokenizer.add(RSVP_CONS, RSVP_CONS_N);       
+        tokenizer.add(RSVP_DO, RSVP_DO_N);       
+        tokenizer.add(RSVP_STRU, RSVP_STRU_N);
+        tokenizer.add(RSVP_MODU, RSVP_MODU_N);       
+        tokenizer.add(RSVP_BMOD, RSVP_BMOD_N);   
+        tokenizer.add(RSVP_USNG, RSVP_USNG_N);   
+        tokenizer.add(RSVP_IMPO, RSVP_IMPO_N);   
+        tokenizer.add(RSVP_EXPO, RSVP_EXPO_N);   
+        tokenizer.add(RSVP_END, RSVP_END_N);   
+        tokenizer.add(RSVP_ELSE, RSVP_ELSE_N);   
+        tokenizer.add(RSVP_ELIF, RSVP_ELIF_N);   
+        tokenizer.add(RSVP_CATC, RSVP_CATC_N);   
+        tokenizer.add(RSVP_FINL, RSVP_FINL_N);   
+        tokenizer.add(RSVP_TRUE, RSVP_TRUE_N);   
+        tokenizer.add(RSVP_FALS, RSVP_FALS_N);   
+        tokenizer.add(RSVP_IN , RSVP_IN_N );
+        
+        
+        //======================================================================
+        //Operators
+        //======================================================================
+    
+        tokenizer.add(LITERAL_INTEGER,      LITERAL_INTEGER_N); 
+        tokenizer.add(EQ_OPERATOR,          EQ_OPERATOR_N);
+        tokenizer.add(LE_OPERATOR,          LE_OPERATOR_N);   
+        tokenizer.add(LT_OPERATOR,          LT_OPERATOR_N);   
+        tokenizer.add(GE_OPERATOR,          GE_OPERATOR_N);     
+        tokenizer.add(GT_OPERATOR,          GT_OPERATOR_N);    
+        tokenizer.add(NE_OPERATOR,          NE_OPERATOR_N); 
+        tokenizer.add(ASSIGNMENT_OPERATOR,  ASSIGNMENT_OPERATOR_N); 
+        tokenizer.add(ADD_OPERATOR,         ADD_OPERATOR_N);  
+        tokenizer.add(SUB_OPERATOR,         SUB_OPERATOR_N);   
+        tokenizer.add(MUL_OPERATOR,         MUL_OPERATOR_N);   
+        tokenizer.add(DIV_OPERATOR,         DIV_OPERATOR_N);  
+        tokenizer.add(OPEN_BRACKET,         OPEN_BRACKET_N); 
+        tokenizer.add(CLOSE_BRACKET,        CLOSE_BRACKET_N);
+        tokenizer.add(LITERAL_QUOTE,        LITERAL_QUOTE_N);
+        tokenizer.add(LITERAL_COMMA,        LITERAL_COMMA_N);
+        tokenizer.add(LINE_COMMENT,         LINE_COMMENT_N);
+        tokenizer.add(BEGIN_COMMENT,        BEGIN_COMMENT_N);
+        tokenizer.add(END_COMMENT,          END_COMMENT_N);
+        tokenizer.add(IDENTIFIER,           IDENTIFIER_N);
+        tokenizer.add(OPEN_BRACE,           OPEN_BRACE_N);
+        tokenizer.add(CLOSE_BRACE,          CLOSE_BRACE_N);
+        tokenizer.add(WHITE_SPACE,          WHITE_SPACE_N);
+        tokenizer.add(DOT_PTS,              DOT_PTS_N);
+        tokenizer.add(POW_OPERATOR,         POW_OPERATOR_N);
+        tokenizer.add(LITERAL_TEXT,         LITERAL_TEXT_N);
+        tokenizer.add(MOD_OPERATOR,         MOD_OPERATOR_N);
+
+        tokenizer.add(OTHERS,               7000);
+        
+        
+        return tokenizer;
+        
+    }
+    
+    //==========================================================================
+    //Main function
+    //Used for testing of the different lexical samples
+    //Takes one line and return the differnt tokens found
+    //Does not give information about the line or the column
+    //==========================================================================
+
+    
+    public static void main(String[] args) {
+        
+        Tokenizer tokenizer = initTokenizer();
+        
+        try {
+            tokenizer.tokenize("define varm2 array[MM] of type integer",9);
+
+            for (Token tok : tokenizer.getTokens()) {
+                System.out.println("row: "+tok.row_num+ " , col: " + tok.col_num + " | token_code: " + tok.token + " | token_sequence: " + tok.sequence);
+            }
+        }
+        catch (ParserException e) {
+            System.out.println("\n\n"+e.getMessage());
+        }
     }
     
 }

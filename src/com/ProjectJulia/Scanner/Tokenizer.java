@@ -29,6 +29,7 @@ public class Tokenizer {
 	
 	private static final String IDENTIFIER          = "[a-zA-Z][a-zA-Z0-9_]*";
 	private static final String LITERAL_INTEGER     = "[0-9]+";
+    private static final String END_COMMENT         = "[=][#]";
     private static final String ASSIGNMENT_OPERATOR = "[=]";
     private static final String LE_OPERATOR         = "[<][=]";
     private static final String LT_OPERATOR         = "[<]";
@@ -36,15 +37,15 @@ public class Tokenizer {
     private static final String GT_OPERATOR         = "[>]";
     private static final String EQ_OPERATOR         = "[=][=]";
     private static final String NE_OPERATOR         = "[!][=]";
+    private static final String UNADD_OPERATOR        = "[+]"+ IDENTIFIER;
     private static final String ADD_OPERATOR        = "[+]";
     private static final String SUB_OPERATOR        = "[-]";
     private static final String MUL_OPERATOR        = "[^/|^*][*][^/|^*]";
     private static final String DIV_OPERATOR        = "[^/|^*][/][^/|^*]";
     private static final String POW_OPERATOR        = "[\\^]";
     private static final String LITERAL_QUOTE       = "[\"]";
-    private static final String LINE_COMMENT        = "[#]";
-    private static final String BEGIN_COMMENT       = "[#][=]";
-    private static final String END_COMMENT         = "[=][#]";
+    //private static final String BEGIN_COMMENT       = "[#][=]"+ LITERAL_TEXT;
+    //private static final String LINE_COMMENT        = "[#]" + LITERAL_TEXT;
     private static final String LITERAL_COMMA       = "[,]";
     private static final String OPEN_BRACKET        = "[(]";
     private static final String CLOSE_BRACKET       = "[)]";
@@ -53,8 +54,15 @@ public class Tokenizer {
     private static final String WHITE_SPACE         = "[\t]+|[\r]+|[\f]+|[ ]+";
     private static final String DOT_PTS             = "[.]";
     private static final String LITERAL_TEXT        = "[^\"\\\\\\r\\n]*(?:\\\\.[^\"\\\\\\r\\n]*)*";
+    
+    private static final String BEGIN_COMMENT       = "[#][=]"+ LITERAL_TEXT;
+    private static final String LINE_COMMENT        = "[#]" + LITERAL_TEXT;
+    
     private static final String OTHERS              = ".+";
     private static final String MOD_OPERATOR        = "[%]";
+    private static final String OR_OPERATOR        = "[|][|]";
+    private static final String AND_OPERATOR        = "[&][&]";
+
 
 	
     //==========================================================================
@@ -163,6 +171,9 @@ public class Tokenizer {
     public static final int DOT_PTS_N               = 6025;
     public static final int LITERAL_TEXT_N          = 6026;
     private static final int MOD_OPERATOR_N         = 6027;
+    public static final int UNADD_OPERATOR_N        = 6028;
+    private static final int OR_OPERATOR_N          = 6029;
+    private static final int AND_OPERATOR_N         = 6030;
 
     
     //==========================================================================
@@ -353,26 +364,32 @@ public class Tokenizer {
         tokenizer.add(GE_OPERATOR,          GE_OPERATOR_N);     
         tokenizer.add(GT_OPERATOR,          GT_OPERATOR_N);    
         tokenizer.add(NE_OPERATOR,          NE_OPERATOR_N); 
-        tokenizer.add(ASSIGNMENT_OPERATOR,  ASSIGNMENT_OPERATOR_N); 
+        tokenizer.add(END_COMMENT,          END_COMMENT_N);
+        tokenizer.add(ASSIGNMENT_OPERATOR,  ASSIGNMENT_OPERATOR_N);
+        tokenizer.add(UNADD_OPERATOR,         UNADD_OPERATOR_N);  
+
         tokenizer.add(ADD_OPERATOR,         ADD_OPERATOR_N);  
         tokenizer.add(SUB_OPERATOR,         SUB_OPERATOR_N);   
         tokenizer.add(MUL_OPERATOR,         MUL_OPERATOR_N);   
-        tokenizer.add(DIV_OPERATOR,         DIV_OPERATOR_N);  
+        tokenizer.add(DIV_OPERATOR,         DIV_OPERATOR_N);
+        tokenizer.add(OR_OPERATOR,         OR_OPERATOR_N);  
+        tokenizer.add(AND_OPERATOR,         AND_OPERATOR_N);  
+
         tokenizer.add(OPEN_BRACKET,         OPEN_BRACKET_N); 
         tokenizer.add(CLOSE_BRACKET,        CLOSE_BRACKET_N);
         tokenizer.add(LITERAL_QUOTE,        LITERAL_QUOTE_N);
         tokenizer.add(LITERAL_COMMA,        LITERAL_COMMA_N);
-        tokenizer.add(LINE_COMMENT,         LINE_COMMENT_N);
         tokenizer.add(BEGIN_COMMENT,        BEGIN_COMMENT_N);
-        tokenizer.add(END_COMMENT,          END_COMMENT_N);
+        tokenizer.add(LINE_COMMENT,         LINE_COMMENT_N);
         tokenizer.add(IDENTIFIER,           IDENTIFIER_N);
         tokenizer.add(OPEN_BRACE,           OPEN_BRACE_N);
         tokenizer.add(CLOSE_BRACE,          CLOSE_BRACE_N);
+        tokenizer.add(MOD_OPERATOR,         MOD_OPERATOR_N);
         tokenizer.add(WHITE_SPACE,          WHITE_SPACE_N);
         tokenizer.add(DOT_PTS,              DOT_PTS_N);
         tokenizer.add(POW_OPERATOR,         POW_OPERATOR_N);
         tokenizer.add(LITERAL_TEXT,         LITERAL_TEXT_N);
-        tokenizer.add(MOD_OPERATOR,         MOD_OPERATOR_N);
+        
 
         tokenizer.add(OTHERS,               7000);
         

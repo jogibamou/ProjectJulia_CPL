@@ -35,9 +35,9 @@ public class Scanner {
             // Verifies if the extension is the right one
             // =================================================================
             String [] parts = this.filename.getAbsolutePath().split("[.]");
-            if(!parts[1].equals("scl")){
+            if(!parts[1].equals("jl")){
                 throw new ParserException("\n\nNon valid file extension."
-                        + " Use a file with the extension \".scl\"");
+                        + " Use a file with the extension \".jl\"");
             }
             
             scan();
@@ -123,8 +123,8 @@ public class Scanner {
     public static void main(String[]args){
         if(args.length==2){
             try{
-                Scanner scan = new Scanner("sclex1.scl");
-                Parser parse = new Parser(scan.getTokenList());
+                Scanner scan = new Scanner("sclex1.jl");
+                //Parser parse = new Parser(scan.getTokenList());
             }
             catch(ParserException e){
                 System.out.println(e.getMessage());

@@ -42,9 +42,9 @@ public class Tokenizer {
     private static final String DIV_OPERATOR        = "[^/|^*][/][^/|^*]";
     private static final String POW_OPERATOR        = "[\\^]";
     private static final String LITERAL_QUOTE       = "[\"]";
-    private static final String LINE_COMMENT        = "[/][/]";
-    private static final String BEGIN_COMMENT       = "[/][\\*]";
-    private static final String END_COMMENT         = "[\\*][/]";
+    private static final String LINE_COMMENT        = "[#]";
+    private static final String BEGIN_COMMENT       = "[#][=]";
+    private static final String END_COMMENT         = "[=][#]";
     private static final String LITERAL_COMMA       = "[,]";
     private static final String OPEN_BRACKET        = "[(]";
     private static final String CLOSE_BRACKET       = "[)]";
@@ -94,6 +94,8 @@ public class Tokenizer {
     private static final String RSVP_TRUE = "true";
     private static final String RSVP_FALS = "false";
     private static final String RSVP_IN   = "in";
+    private static final String RSVP_PRIN   = "print";
+    private static final String RSVP_PRLN   = "println";
 
 
     
@@ -202,7 +204,8 @@ public class Tokenizer {
     private static final int RSVP_TRUE_N = 5028;
     private static final int RSVP_FALS_N = 5029;
     private static final int RSVP_IN_N   = 5030;
-
+    private static final int RSVP_PRIN_N   = 5031;
+    private static final int RSVP_PRLN_N   = 5032;
     
   //==========================================================================
     //tokenInfos
@@ -335,7 +338,9 @@ public class Tokenizer {
         tokenizer.add(RSVP_TRUE, RSVP_TRUE_N);   
         tokenizer.add(RSVP_FALS, RSVP_FALS_N);   
         tokenizer.add(RSVP_IN , RSVP_IN_N );
-        
+        tokenizer.add(RSVP_IN , RSVP_IN_N );
+        tokenizer.add(RSVP_PRLN , RSVP_PRLN_N );
+
         
         //======================================================================
         //Operators

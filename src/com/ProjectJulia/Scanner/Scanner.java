@@ -121,17 +121,19 @@ public class Scanner {
     // =========================================================================
     
     public static void main(String[]args){
-        if(args.length==2){
+        //if(args.length==2){
+    	if(true){
             try{
-                Scanner scan = new Scanner("sclex1.jl");
+                Scanner scan = new Scanner("test1.jl");
                 //Parser parse = new Parser(scan.getTokenList());
             }
             catch(ParserException e){
                 System.out.println(e.getMessage());
             }
-        }else{
+        }
+        else{
             System.out.println("\n\n ===> Error while reading. No file as "
-                    +"input. Please enter a file name with extension .scl");
+                    +"input. Please enter a file name with extension .jl");
         }
     }
     

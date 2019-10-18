@@ -38,6 +38,8 @@ public class Tokenizer {
     private static final String EQ_OPERATOR         = "[=][=]";
     private static final String NE_OPERATOR         = "[!][=]";
     private static final String UNADD_OPERATOR      = "[+]"+ IDENTIFIER;
+    private static final String UNSUB_OPERATOR      = "[-]"+ IDENTIFIER;
+
     private static final String ADD_OPERATOR        = "[+]";
     private static final String SUB_OPERATOR        = "[-]";
     private static final String MUL_OPERATOR        = "[^/|^*][*][^/|^*]";
@@ -174,6 +176,7 @@ public class Tokenizer {
     public static final int UNADD_OPERATOR_N        = 6028;
     private static final int OR_OPERATOR_N          = 6029;
     private static final int AND_OPERATOR_N         = 6030;
+    public static final int UNSUB_OPERATOR_N        = 6031;
 
     
     //==========================================================================
@@ -367,6 +370,7 @@ public class Tokenizer {
         tokenizer.add(END_COMMENT,          END_COMMENT_N);
         tokenizer.add(ASSIGNMENT_OPERATOR,  ASSIGNMENT_OPERATOR_N);
         tokenizer.add(UNADD_OPERATOR,         UNADD_OPERATOR_N);  
+        tokenizer.add(UNSUB_OPERATOR,         UNSUB_OPERATOR_N);  
 
         tokenizer.add(ADD_OPERATOR,         ADD_OPERATOR_N);  
         tokenizer.add(SUB_OPERATOR,         SUB_OPERATOR_N);   

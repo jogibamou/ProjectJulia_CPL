@@ -108,7 +108,7 @@ public class Scanner {
         for (Token tok : this.tokenizer.getTokens()) {
             if(tok.token!=5052 && tok.token!=5055){
                 System.out.println("row: " +tok.row_num+ " , col: " 
-                        + tok.col_num + " | token_code: " + tok.token 
+                        + tok.col_num + " | Token: " + tok.token_name
                         //+ " | token_sequence: " + tok.sequence);
                         +" | lexeme: " + tok.sequence);
             }

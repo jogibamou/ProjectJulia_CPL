@@ -1,6 +1,8 @@
 package com.ProjectJulia.Scanner;
 
 import com.ProjectJulia.ExceptionPack.ParserException;
+import javafx.util.Pair;
+
 import java.util.LinkedList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -9,12 +11,14 @@ public class Tokenizer {
 	
 	private class TokenInfo{
 		public final Pattern regex;
-		public final int token;
+		public final int token_code;
+		public final String token_name;
 		
-		public TokenInfo(Pattern regex, int token) {
+		public TokenInfo(Pattern regex, int token_code, String token_Name) {
 			super();
 			this.regex = regex;
-			this.token = token;
+			this.token_code = token_code;
+			this.token_name = token_Name;
 			
 		}
 	}
@@ -146,37 +150,36 @@ public class Tokenizer {
     //==========================================================================
     
     
-    public static final int IDENTIFIER_N            = 6001;
-    public static final int LITERAL_INTEGER_N       = 6002;
-    public static final int ASSIGNMENT_OPERATOR_N   = 6003;
-    public static final int LE_OPERATOR_N           = 6004;
-    public static final int LT_OPERATOR_N           = 6005;
-    public static final int GE_OPERATOR_N           = 6006;
-    public static final int GT_OPERATOR_N           = 6007;
-    public static final int EQ_OPERATOR_N           = 6008;
-    public static final int NE_OPERATOR_N           = 6009;
-    public static final int ADD_OPERATOR_N          = 6010;
-    public static final int SUB_OPERATOR_N          = 6011;
-    public static final int MUL_OPERATOR_N          = 6012;
-    public static final int DIV_OPERATOR_N          = 6013;
-    public static final int POW_OPERATOR_N          = 6014;
-    public static final int LITERAL_QUOTE_N         = 6015;
-    public static final int LINE_COMMENT_N          = 6016;
-    public static final int BEGIN_COMMENT_N         = 6017;
-    public static final int END_COMMENT_N           = 6018;
-    public static final int LITERAL_COMMA_N         = 6019;
-    public static final int OPEN_BRACKET_N          = 6020;
-    public static final int CLOSE_BRACKET_N         = 6021;
-    public static final int OPEN_BRACE_N            = 6022;
-    public static final int CLOSE_BRACE_N           = 6023;
-    public static final int WHITE_SPACE_N           = 6024;
-    public static final int DOT_PTS_N               = 6025;
-    public static final int LITERAL_TEXT_N          = 6026;
-    private static final int MOD_OPERATOR_N         = 6027;
-    public static final int UNADD_OPERATOR_N        = 6028;
-    private static final int OR_OPERATOR_N          = 6029;
-    private static final int AND_OPERATOR_N         = 6030;
-    public static final int UNSUB_OPERATOR_N        = 6031;
+    public static final Pair<Integer, String> IDENTIFIER_N = new Pair<>(6001, "IDENTIFIER_N");
+    public static final Pair<Integer, String> LITERAL_INTEGER_N  =  new Pair<>(6001, "LITERAL_INTEGER_N");
+    public static final Pair<Integer, String> ASSIGNMENT_OPERATOR_N   = new Pair<>(6001, "ASSIGNMENT_OPERATOR_N");
+    public static final Pair<Integer, String> LT_OPERATOR_N           =  new Pair<>(6002, "LT_OPERATOR_N");
+    public static final Pair<Integer, String> GE_OPERATOR_N           =  new Pair<>(6003, "GE_OPERATOR_N");
+    public static final Pair<Integer, String> GT_OPERATOR_N           =  new Pair<>(6004, "GT_OPERATOR_N");
+    public static final Pair<Integer, String> EQ_OPERATOR_N           =  new Pair<>(6005, "EQ_OPERATOR_N");
+    public static final Pair<Integer, String> NE_OPERATOR_N           =  new Pair<>(6006, "NE_OPERATOR_N");
+    public static final Pair<Integer, String> ADD_OPERATOR_N          =  new Pair<>(6007, "ADD_OPERATOR_N");
+    public static final Pair<Integer, String> SUB_OPERATOR_N          =  new Pair<>(6008, "SUB_OPERATOR_N");
+    public static final Pair<Integer, String> MUL_OPERATOR_N          =  new Pair<>(6009, "MUL_OPERATOR_N");
+    public static final Pair<Integer, String> DIV_OPERATOR_N          =  new Pair<>(6010, "DIV_OPERATOR_N");
+    public static final Pair<Integer, String> POW_OPERATOR_N          =  new Pair<>(6011, "POW_OPERATOR_N");
+    public static final Pair<Integer, String> LITERAL_QUOTE_N         =  new Pair<>(6012, "LITERAL_QUOTE_N");
+    public static final Pair<Integer, String> LINE_COMMENT_N          =  new Pair<>(6013, "LINE_COMMENT_N");
+    public static final Pair<Integer, String> BEGIN_COMMENT_N         =  new Pair<>(6014, "BEGIN_COMMENT_N");
+    public static final Pair<Integer, String> END_COMMENT_N           =  new Pair<>(6015, "END_COMMENT_N");
+    public static final Pair<Integer, String> LITERAL_COMMA_N         =  new Pair<>(6016, "LITERAL_COMMA_N");
+    public static final Pair<Integer, String> OPEN_BRACKET_N          =  new Pair<>(6017, "OPEN_BRACKET_N");
+    public static final Pair<Integer, String> CLOSE_BRACKET_N         =  new Pair<>(6018, "CLOSE_BRACKET_N");
+    public static final Pair<Integer, String> OPEN_BRACE_N            =  new Pair<>(6019, "OPEN_BRACE_N");
+    public static final Pair<Integer, String> CLOSE_BRACE_N           =  new Pair<>(6020, "CLOSE_BRACE_N");
+    public static final Pair<Integer, String> WHITE_SPACE_N           =  new Pair<>(6021, "WHITE_SPACE_N");
+    public static final Pair<Integer, String> DOT_PTS_N               =  new Pair<>(6022, "DOT_PTS_N");
+    public static final Pair<Integer, String> LITERAL_TEXT_N          =  new Pair<>(6023, "LITERAL_TEXT_N");
+    private static final Pair<Integer, String> MOD_OPERATOR_N         =  new Pair<>(6024, "MOD_OPERATOR_N");
+    public static final Pair<Integer, String> UNADD_OPERATOR_N        = new Pair<>(6025, "MOD_OPERATOR_N");
+    private static final Pair<Integer, String> OR_OPERATOR_N          = new Pair<>(6026, "MOD_OPERATOR_N");
+    private static final Pair<Integer, String> AND_OPERATOR_N         = new Pair<>(6027, "MOD_OPERATOR_N");
+    public static final Pair<Integer, String> UNSUB_OPERATOR_N        = new Pair<>(6028, "MOD_OPERATOR_N");;
 
     
     //==========================================================================
@@ -188,38 +191,38 @@ public class Tokenizer {
     
     
     
-    private static final int RSVP_BEGI_N = 5001;
-    private static final int RSVP_WHIL_N = 5002;
-    private static final int RSVP_IF_N   = 5003;
-    private static final int RSVP_FOR_N  = 5004;
-    private static final int RSVP_TRY_N  = 5005;
-    private static final int RSVP_RETU_N = 5006;
-    private static final int RSVP_BRK_N  = 5007;
-    private static final int RSVP_CONT_N = 5008;
-    private static final int RSVP_FUNC_N = 5009;
-    private static final int RSVP_MACR_N = 5010;
-    private static final int RSVP_QUOT_N = 5011;
-    private static final int RSVP_LET_N  = 5012;
-    private static final int RSVP_LOCL_N = 5013;
-    private static final int RSVP_GLOB_N = 5014;
-    private static final int RSVP_CONS_N = 5015;
-    private static final int RSVP_DO_N   = 5016;
-    private static final int RSVP_STRU_N = 5017;
-    private static final int RSVP_MODU_N = 5018;
-    private static final int RSVP_BMOD_N = 5019;
-    private static final int RSVP_USNG_N = 5020;
-    private static final int RSVP_IMPO_N = 5021;
-    private static final int RSVP_EXPO_N = 5022;
-    private static final int RSVP_END_N  = 5023;
-    private static final int RSVP_ELSE_N = 5024;
-    private static final int RSVP_ELIF_N = 5025;
-    private static final int RSVP_CATC_N = 5026;
-    private static final int RSVP_FINL_N = 5027;
-    private static final int RSVP_TRUE_N = 5028;
-    private static final int RSVP_FALS_N = 5029;
-    private static final int RSVP_IN_N   = 5030;
-    private static final int RSVP_PRIN_N   = 5031;
-    private static final int RSVP_PRLN_N   = 5032;
+    private static final Pair<Integer, String> RSVP_BEGI_N = new Pair<>(5001, "RSVP_BEGI_N");
+    private static final Pair<Integer, String> RSVP_WHIL_N = new Pair<>(5002, "RSVP_WHIL_N");
+    private static final Pair<Integer, String> RSVP_IF_N   = new Pair<>(5003, "RSVP_IF_N");
+    private static final Pair<Integer, String> RSVP_FOR_N  = new Pair<>(5004, "RSVP_FOR_N");
+    private static final Pair<Integer, String> RSVP_TRY_N  = new Pair<>(5005, "RSVP_TRY_N");
+    private static final Pair<Integer, String> RSVP_RETU_N = new Pair<>(5006, "RSVP_RETU_N");
+    private static final Pair<Integer, String> RSVP_BRK_N  = new Pair<>(5007, "RSVP_BRK_N");
+    private static final Pair<Integer, String> RSVP_CONT_N = new Pair<>(5008, "RSVP_CONT_N");
+    private static final Pair<Integer, String> RSVP_FUNC_N = new Pair<>(5009, "RSVP_FUNC_N");
+    private static final Pair<Integer, String> RSVP_MACR_N = new Pair<>(5010, "RSVP_MACR_N");
+    private static final Pair<Integer, String> RSVP_QUOT_N = new Pair<>(5011, "RSVP_QUOT_N");
+    private static final Pair<Integer, String> RSVP_LET_N  = new Pair<>(5011, "RSVP_LET_N");
+    private static final Pair<Integer, String> RSVP_LOCL_N = new Pair<>(5012, "RSVP_LOCL_N");
+    private static final Pair<Integer, String> RSVP_GLOB_N = new Pair<>(5013, "RSVP_GLOB_N");
+    private static final Pair<Integer, String> RSVP_CONS_N = new Pair<>(5014, "RSVP_CONS_N");
+    private static final Pair<Integer, String> RSVP_DO_N   = new Pair<>(5015, "RSVP_DO_N");
+    private static final Pair<Integer, String> RSVP_STRU_N = new Pair<>(5016, "RSVP_STRU_N");
+    private static final Pair<Integer, String> RSVP_MODU_N = new Pair<>(5017, "RSVP_MODU_N");
+    private static final Pair<Integer, String> RSVP_BMOD_N = new Pair<>(5018, "RSVP_BMOD_N");
+    private static final Pair<Integer, String> RSVP_USNG_N = new Pair<>(5019, "RSVP_USNG_N");
+    private static final Pair<Integer, String> RSVP_IMPO_N = new Pair<>(5020, "RSVP_IMPO_N");
+    private static final Pair<Integer, String> RSVP_EXPO_N = new Pair<>(5021, "RSVP_EXPO_N");
+    private static final Pair<Integer, String> RSVP_END_N  = new Pair<>(5022, "RSVP_END_N");
+    private static final Pair<Integer, String> RSVP_ELSE_N = new Pair<>(5023, "RSVP_ELSE_N");
+    private static final Pair<Integer, String> RSVP_ELIF_N = new Pair<>(5024, "RSVP_ELIF_N");
+    private static final Pair<Integer, String> RSVP_CATC_N = new Pair<>(5025, "RSVP_CATC_N");
+    private static final Pair<Integer, String> RSVP_FINL_N = new Pair<>(5026, "RSVP_FINL_N");
+    private static final Pair<Integer, String> RSVP_TRUE_N = new Pair<>(5027, "RSVP_TRUE_N");
+    private static final Pair<Integer, String> RSVP_FALS_N = new Pair<>(5028, "RSVP_FALS_N");
+    private static final Pair<Integer, String> RSVP_IN_N   = new Pair<>(5029, "RSVP_IN_N");
+    private static final Pair<Integer, String> RSVP_PRIN_N  = new Pair<>(5030, "RSVP_PRIN_N");
+    private static final Pair<Integer, String> RSVP_PRLN_N  = new Pair<>(5031, "RSVP_PRLN_N");
     
   //==========================================================================
     //tokenInfos
@@ -255,8 +258,8 @@ public class Tokenizer {
     // int token : represents the integer code associated to the token
     // =========================================================================
     
-    public void add(String regex, int token) {
-    	tokenInfos.add(new TokenInfo(Pattern.compile("^("+regex+")"), token));
+    public void add(String regex, Pair<Integer, String>token) {
+    	tokenInfos.add(new TokenInfo(Pattern.compile("^("+regex+")"), token.getKey(), token.getValue()));
     }
     
     // =========================================================================
@@ -281,8 +284,8 @@ public class Tokenizer {
                     match = true;
 
                     String tok = m.group().trim();
-                    if(info.token != WHITE_SPACE_N){
-                        tokens.add(new Token(info.token, tok, col_num, line_number));
+                    if(info.token_code != WHITE_SPACE_N.getKey()){
+                        tokens.add(new Token(info.token_code, tok, col_num, line_number, info.token_name));
                     }else{
                         col_num--;
                     }
@@ -362,7 +365,7 @@ public class Tokenizer {
     
         tokenizer.add(LITERAL_INTEGER,      LITERAL_INTEGER_N); 
         tokenizer.add(EQ_OPERATOR,          EQ_OPERATOR_N);
-        tokenizer.add(LE_OPERATOR,          LE_OPERATOR_N);   
+//        tokenizer.add(LE_OPERATOR,          LE_OPERATOR_N);
         tokenizer.add(LT_OPERATOR,          LT_OPERATOR_N);   
         tokenizer.add(GE_OPERATOR,          GE_OPERATOR_N);     
         tokenizer.add(GT_OPERATOR,          GT_OPERATOR_N);    
@@ -395,7 +398,7 @@ public class Tokenizer {
         tokenizer.add(LITERAL_TEXT,         LITERAL_TEXT_N);
         
 
-        tokenizer.add(OTHERS,               7000);
+//        tokenizer.add(OTHERS,               OTHER);
         
         
         return tokenizer;
@@ -418,7 +421,7 @@ public class Tokenizer {
             tokenizer.tokenize("define varm2 array[MM] of type integer",9);
 
             for (Token tok : tokenizer.getTokens()) {
-                System.out.println("row: "+tok.row_num+ " , col: " + tok.col_num + " | token_code: " + tok.token + " | token_sequence: " + tok.sequence);
+                System.out.println("row: "+tok.row_num+ " , col: " + tok.col_num + " | Token: " + tok.token_name + " | token_sequence: " + tok.sequence);
             }
         }
         catch (ParserException e) {

@@ -105,8 +105,22 @@ public class Scanner {
 
     private void printTokens(){
         
+        System.out.println("\n*********** Tokens **********\n");
+
+    	
         for (Token tok : this.tokenizer.getTokens()) {
-            if(tok.token!=5052 && tok.token!=5055){
+            if(tok.token >= 6000 && tok.token < 7000 && tok.token!=5052 && tok.token!=5055){
+                System.out.println("row: " +tok.row_num+ " , col: " 
+                        + tok.col_num + " | Token: " + tok.token_name
+                        //+ " | token_sequence: " + tok.sequence);
+                        +" | lexeme: " + tok.sequence);
+            }
+        }
+        
+        System.out.println("\n*********** Lexemes **********\n");
+        
+        for (Token tok : this.tokenizer.getTokens()) {
+            if(tok.token >= 5000 && tok.token < 6000 && tok.token!=5052 && tok.token!=5055){
                 System.out.println("row: " +tok.row_num+ " , col: " 
                         + tok.col_num + " | Token: " + tok.token_name
                         //+ " | token_sequence: " + tok.sequence);

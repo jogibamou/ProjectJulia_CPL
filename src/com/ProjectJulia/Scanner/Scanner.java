@@ -109,7 +109,8 @@ public class Scanner {
             if(tok.token!=5052 && tok.token!=5055){
                 System.out.println("row: " +tok.row_num+ " , col: " 
                         + tok.col_num + " | token_code: " + tok.token 
-                        + " | token_sequence: " + tok.sequence);
+                        //+ " | token_sequence: " + tok.sequence);
+                        +" | lexeme: " + tok.sequence);
             }
         }
         

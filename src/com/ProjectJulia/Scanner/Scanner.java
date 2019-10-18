@@ -8,7 +8,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.LinkedList;
-import com.ProjectJulia.Parser.Parser;
+//import com.ProjectJulia.Parser.Parser;
 
 public class Scanner {
 	private File filename;
@@ -80,9 +80,10 @@ public class Scanner {
                 + "====//\n  Scanner Result\n//=========================="
                 + "==============//\n\n");
         printTokens();
-        System.out.println("\n\n\n//===================================="
+        /*System.out.println("\n\n\n//===================================="
                 + "====//\n  Parser Result\n//=========================="
                 + "==============//\n\n");
+        */
     }
     
     // =========================================================================

@@ -37,7 +37,7 @@ public class Tokenizer {
     private static final String GT_OPERATOR         = "[>]";
     private static final String EQ_OPERATOR         = "[=][=]";
     private static final String NE_OPERATOR         = "[!][=]";
-    private static final String UNADD_OPERATOR        = "[+]"+ IDENTIFIER;
+    private static final String UNADD_OPERATOR      = "[+]"+ IDENTIFIER;
     private static final String ADD_OPERATOR        = "[+]";
     private static final String SUB_OPERATOR        = "[-]";
     private static final String MUL_OPERATOR        = "[^/|^*][*][^/|^*]";

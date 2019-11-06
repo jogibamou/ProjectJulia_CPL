@@ -10,9 +10,9 @@ import java.util.regex.Pattern;
 public class Tokenizer {
 
     private class TokenInfo {
-        public final Pattern regex;
-        public final int token_code;
-        public final String token_name;
+    	private final Pattern regex;
+    	private final int token_code;
+    	private final String token_name;
 
         public TokenInfo(Pattern regex, int token_code, String token_Name) {
             super();
@@ -21,6 +21,19 @@ public class Tokenizer {
             this.token_name = token_Name;
 
         }
+        
+        public Pattern getRegex();
+		
+		public int getTokenCode();
+		
+		public String getTokenName();
+		
+		public setRegex(Pattern pat);
+		
+		public setTokenCode(int code);
+		
+		public setTokenName(String name);
+        
     }
 
     //==========================================================================
@@ -150,38 +163,38 @@ public class Tokenizer {
     //==========================================================================
 
 
-    public static final Pair < Integer, String > IDENTIFIER_N = new Pair < > (6001, "IDENTIFIER_N");
-    public static final Pair < Integer, String > LITERAL_INTEGER_N = new Pair < > (6002, "LITERAL_INTEGER_N");
-    public static final Pair < Integer, String > ASSIGNMENT_OPERATOR_N = new Pair < > (6003, "ASSIGNMENT_OPERATOR_N");
-    public static final Pair < Integer, String > LE_OPERATOR_N = new Pair < > (6004, "LE_OPERATOR_N");
+    private static final Pair < Integer, String > IDENTIFIER_N = new Pair < > (6001, "IDENTIFIER_N");
+    private static final Pair < Integer, String > LITERAL_INTEGER_N = new Pair < > (6002, "LITERAL_INTEGER_N");
+    private static final Pair < Integer, String > ASSIGNMENT_OPERATOR_N = new Pair < > (6003, "ASSIGNMENT_OPERATOR_N");
+    private static final Pair < Integer, String > LE_OPERATOR_N = new Pair < > (6004, "LE_OPERATOR_N");
 
-    public static final Pair < Integer, String > LT_OPERATOR_N = new Pair < > (6005, "LT_OPERATOR_N");
-    public static final Pair < Integer, String > GE_OPERATOR_N = new Pair < > (6006, "GE_OPERATOR_N");
-    public static final Pair < Integer, String > GT_OPERATOR_N = new Pair < > (6007, "GT_OPERATOR_N");
-    public static final Pair < Integer, String > EQ_OPERATOR_N = new Pair < > (6008, "EQ_OPERATOR_N");
-    public static final Pair < Integer, String > NE_OPERATOR_N = new Pair < > (6009, "NE_OPERATOR_N");
-    public static final Pair < Integer, String > ADD_OPERATOR_N = new Pair < > (6010, "ADD_OPERATOR_N");
-    public static final Pair < Integer, String > SUB_OPERATOR_N = new Pair < > (6011, "SUB_OPERATOR_N");
-    public static final Pair < Integer, String > MUL_OPERATOR_N = new Pair < > (6012, "MUL_OPERATOR_N");
-    public static final Pair < Integer, String > DIV_OPERATOR_N = new Pair < > (6013, "DIV_OPERATOR_N");
-    public static final Pair < Integer, String > POW_OPERATOR_N = new Pair < > (6014, "POW_OPERATOR_N");
-    public static final Pair < Integer, String > LITERAL_QUOTE_N = new Pair < > (6015, "LITERAL_QUOTE_N");
-    public static final Pair < Integer, String > LINE_COMMENT_N = new Pair < > (6016, "LINE_COMMENT_N");
-    public static final Pair < Integer, String > BEGIN_COMMENT_N = new Pair < > (6017, "BEGIN_COMMENT_N");
-    public static final Pair < Integer, String > END_COMMENT_N = new Pair < > (6018, "END_COMMENT_N");
-    public static final Pair < Integer, String > LITERAL_COMMA_N = new Pair < > (6019, "LITERAL_COMMA_N");
-    public static final Pair < Integer, String > OPEN_BRACKET_N = new Pair < > (6020, "OPEN_BRACKET_N");
-    public static final Pair < Integer, String > CLOSE_BRACKET_N = new Pair < > (6021, "CLOSE_BRACKET_N");
-    public static final Pair < Integer, String > OPEN_BRACE_N = new Pair < > (6022, "OPEN_BRACE_N");
-    public static final Pair < Integer, String > CLOSE_BRACE_N = new Pair < > (6023, "CLOSE_BRACE_N");
-    public static final Pair < Integer, String > WHITE_SPACE_N = new Pair < > (6024, "WHITE_SPACE_N");
-    public static final Pair < Integer, String > DOT_PTS_N = new Pair < > (6025, "DOT_PTS_N");
-    public static final Pair < Integer, String > LITERAL_TEXT_N = new Pair < > (6026, "LITERAL_TEXT_N");
+    private static final Pair < Integer, String > LT_OPERATOR_N = new Pair < > (6005, "LT_OPERATOR_N");
+    private static final Pair < Integer, String > GE_OPERATOR_N = new Pair < > (6006, "GE_OPERATOR_N");
+    private static final Pair < Integer, String > GT_OPERATOR_N = new Pair < > (6007, "GT_OPERATOR_N");
+    private static final Pair < Integer, String > EQ_OPERATOR_N = new Pair < > (6008, "EQ_OPERATOR_N");
+    private static final Pair < Integer, String > NE_OPERATOR_N = new Pair < > (6009, "NE_OPERATOR_N");
+    private static final Pair < Integer, String > ADD_OPERATOR_N = new Pair < > (6010, "ADD_OPERATOR_N");
+    private static final Pair < Integer, String > SUB_OPERATOR_N = new Pair < > (6011, "SUB_OPERATOR_N");
+    private static final Pair < Integer, String > MUL_OPERATOR_N = new Pair < > (6012, "MUL_OPERATOR_N");
+    private static final Pair < Integer, String > DIV_OPERATOR_N = new Pair < > (6013, "DIV_OPERATOR_N");
+    private static final Pair < Integer, String > POW_OPERATOR_N = new Pair < > (6014, "POW_OPERATOR_N");
+    private static final Pair < Integer, String > LITERAL_QUOTE_N = new Pair < > (6015, "LITERAL_QUOTE_N");
+    private static final Pair < Integer, String > LINE_COMMENT_N = new Pair < > (6016, "LINE_COMMENT_N");
+    private static final Pair < Integer, String > BEGIN_COMMENT_N = new Pair < > (6017, "BEGIN_COMMENT_N");
+    private static final Pair < Integer, String > END_COMMENT_N = new Pair < > (6018, "END_COMMENT_N");
+    private static final Pair < Integer, String > LITERAL_COMMA_N = new Pair < > (6019, "LITERAL_COMMA_N");
+    private static final Pair < Integer, String > OPEN_BRACKET_N = new Pair < > (6020, "OPEN_BRACKET_N");
+    private static final Pair < Integer, String > CLOSE_BRACKET_N = new Pair < > (6021, "CLOSE_BRACKET_N");
+    private static final Pair < Integer, String > OPEN_BRACE_N = new Pair < > (6022, "OPEN_BRACE_N");
+    private static final Pair < Integer, String > CLOSE_BRACE_N = new Pair < > (6023, "CLOSE_BRACE_N");
+    private static final Pair < Integer, String > WHITE_SPACE_N = new Pair < > (6024, "WHITE_SPACE_N");
+    private static final Pair < Integer, String > DOT_PTS_N = new Pair < > (6025, "DOT_PTS_N");
+    private static final Pair < Integer, String > LITERAL_TEXT_N = new Pair < > (6026, "LITERAL_TEXT_N");
     private static final Pair < Integer, String > MOD_OPERATOR_N = new Pair < > (6027, "MOD_OPERATOR_N");
-    public static final Pair < Integer, String > UNADD_OPERATOR_N = new Pair < > (6028, "MOD_OPERATOR_N");
+    private static final Pair < Integer, String > UNADD_OPERATOR_N = new Pair < > (6028, "MOD_OPERATOR_N");
     private static final Pair < Integer, String > OR_OPERATOR_N = new Pair < > (6029, "MOD_OPERATOR_N");
     private static final Pair < Integer, String > AND_OPERATOR_N = new Pair < > (6030, "MOD_OPERATOR_N");
-    public static final Pair < Integer, String > UNSUB_OPERATOR_N = new Pair < > (6031, "MOD_OPERATOR_N");;
+    private static final Pair < Integer, String > UNSUB_OPERATOR_N = new Pair < > (6031, "MOD_OPERATOR_N");;
 
 
     //==========================================================================
@@ -311,7 +324,11 @@ public class Tokenizer {
     public LinkedList < Token > getTokens() {
         return tokens;
     }
-
+    
+    public LinkedList < TokenInfo > getTokenInfos() {
+        return tokenInfos;
+    }
+    
     public static Tokenizer initTokenizer() {
 
         //======================================================================

@@ -2,11 +2,11 @@ package com.ProjectJulia.Scanner;
 
 public class Token {
 	
-	public final int token;
-	public final String sequence;
-	public int col_num;
-	public int row_num;
-	public String token_name;
+	private final int token;
+	private final String sequence;
+	private int col_num;
+	private int row_num;
+	private String token_name;
 	
 	// =========================================================================
     // __constructor__ Token(int token, String sequance, int col, int row)
@@ -32,4 +32,15 @@ public class Token {
 		this.row_num = row;
 		this.token_name = token_name;
 	}
+	
+	public int getToken();
+	public String getSequence();
+	public int getCol();
+	public int getRow();
+	
+	public setToken(int code);
+	public setSequence(String seq);
+	public setCol(int col);
+	public setRow(int row);
+	
 }

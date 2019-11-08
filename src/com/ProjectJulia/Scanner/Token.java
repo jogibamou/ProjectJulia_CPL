@@ -2,8 +2,8 @@ package com.ProjectJulia.Scanner;
 
 public class Token {
 	
-	private final int token;
-	private final String sequence;
+	private int token;
+	private String sequence;
 	private int col_num;
 	private int row_num;
 	private String token_name;
@@ -33,14 +33,41 @@ public class Token {
 		this.token_name = token_name;
 	}
 	
-	public int getToken();
-	public String getSequence();
-	public int getCol();
-	public int getRow();
+	public int getToken(){
+		return this.token;
+	};
+
+	public String getSequence(){
+		return this.sequence;
+	};
+
+	public int getCol(){
+		return this.col_num;
+	};
+	public int getRow(){
+		return this.row_num;
+	};
+
+	public String getToken_name(){
+		return this.token_name;
+	}
 	
-	public setToken(int code);
-	public setSequence(String seq);
-	public setCol(int col);
-	public setRow(int row);
-	
+	public void setToken(int code){
+		this.token = 0;
+	};
+
+	public void setSequence(String seq){
+		this.sequence = seq;
+	};
+
+	public void setCol(int col){
+		this.col_num = col;
+	};
+	public void setRow(int row){
+		this.row_num = row;
+	};
+
+	public void setToken_name(String name){
+		this.token_name = name;
+	}
 }

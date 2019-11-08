@@ -10,9 +10,9 @@ import java.util.regex.Pattern;
 public class Tokenizer {
 
     private class TokenInfo {
-    	private final Pattern regex;
-    	private final int token_code;
-    	private final String token_name;
+    	private Pattern regex;
+    	private int token_code;
+    	private String token_name;
 
         public TokenInfo(Pattern regex, int token_code, String token_Name) {
             super();
@@ -22,17 +22,29 @@ public class Tokenizer {
 
         }
         
-        public Pattern getRegex();
+        public Pattern getRegex(){
+            return this.regex;
+        };
 		
-		public int getTokenCode();
+		public int getTokenCode(){
+		    return this.token_code;
+        };
 		
-		public String getTokenName();
+		public String getTokenName(){
+		    return this.token_name;
+        };
 		
-		public setRegex(Pattern pat);
+		public void setRegex(Pattern pat){
+		    this.regex = pat;
+        };
 		
-		public setTokenCode(int code);
+		public void setTokenCode(int code){
+		    this.token_code = code;
+        };
 		
-		public setTokenName(String name);
+		public void setTokenName(String name){
+		    this.token_name = name;
+        };
         
     }
 
@@ -440,7 +452,7 @@ public class Tokenizer {
             tokenizer.tokenize("define varm2 array[MM] of type integer", 9);
 
             for (Token tok: tokenizer.getTokens()) {
-                System.out.println("row: " + tok.row_num + " , col: " + tok.col_num + " | Token: " + tok.token_name + " | token_sequence: " + tok.sequence);
+                System.out.println("row: " + tok.getRow() + " , col: " + tok.getCol() + " | Token: " + tok.getToken_name() + " | token_sequence: " + tok.getSequence());
             }
         } catch (ParserException e) {
             System.out.println("\n\n" + e.getMessage());

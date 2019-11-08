@@ -109,22 +109,22 @@ public class Scanner {
 
     	
         for (Token tok : this.tokenizer.getTokens()) {
-            if(tok.token >= 6000 && tok.token < 7000 && tok.token!=5052 && tok.token!=5055){
-                System.out.println("row: " +tok.row_num+ " , col: " 
-                        + tok.col_num + " | Token: " + tok.token_name
+            if(tok.getToken() >= 6000 && tok.getToken() < 7000 && tok.getToken()!=5052 && tok.getToken()!=5055){
+                System.out.println("row: " +tok.getRow()+ " , col: "
+                        + tok.getCol() + " | Token: " + tok.getToken_name()
                         //+ " | token_sequence: " + tok.sequence);
-                        +" | lexeme: " + tok.sequence);
+                        +" | lexeme: " + tok.getSequence());
             }
         }
         
         System.out.println("\n*********** Lexemes **********\n");
         
         for (Token tok : this.tokenizer.getTokens()) {
-            if(tok.token >= 5000 && tok.token < 6000 && tok.token!=5052 && tok.token!=5055){
-                System.out.println("row: " +tok.row_num+ " , col: " 
-                        + tok.col_num + " | Token: " + tok.token_name
+            if(tok.getToken() >= 5000 && tok.getToken() < 6000 && tok.getToken()!=5052 && tok.getToken()!=5055){
+                System.out.println("row: " +tok.getRow()+ " , col: "
+                        + tok.getCol() + " | Token: " + tok.getToken_name()
                         //+ " | token_sequence: " + tok.sequence);
-                        +" | lexeme: " + tok.sequence);
+                        +" | lexeme: " + tok.getSequence());
             }
         }
         

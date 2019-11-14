@@ -1,6 +1,8 @@
 package com.ProjectJulia.Scanner;
 
 import com.ProjectJulia.ExceptionPack.ParserException;
+import com.ProjectJulia.Parser.Parser;
+
 import java.io.BufferedReader;
 import java.io.EOFException;
 import java.io.File;
@@ -141,7 +143,7 @@ public class Scanner {
     	if(true){
             try{
                 Scanner scan = new Scanner("test1.jl");
-                //Parser parse = new Parser(scan.getTokenList());
+                Parser parse = new Parser(scan.getTokenList());
             }
             catch(ParserException e){
                 System.out.println(e.getMessage());

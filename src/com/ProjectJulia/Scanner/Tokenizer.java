@@ -1,3 +1,9 @@
+/**
+ * Giovanni Bamoou
+ * James (Quinn) Breedlove
+ * Leonard Hayes
+ */
+
 package com.ProjectJulia.Scanner;
 
 import com.ProjectJulia.ExceptionPack.ParserException;

@@ -12,11 +12,13 @@ public class Parser {
     private LinkedList<Token> tokenLinkedList;
     private Iterator<Token> currTokenIt;
     private Iterator<Token> saveTokenIt;
+    private int currTokenPos = 0;
 
     public Parser(LinkedList<Token> tokenLinkedList){
         this.tokenLinkedList = tokenLinkedList;
         currTokenIt = tokenLinkedList.iterator();
-        saveTokenIt = tokenLinkedList.iterator();
+        saveTokenIt = currTokenIt;
+//        saveTokenIt = tokenLinkedList.iterator();
 
         try{
             parse(tokenLinkedList);
@@ -34,6 +36,11 @@ public class Parser {
         return node;
     }
 
+    private Token getNextToken(){
+        currTokenPos++;
+        return currTokenIt.next();
+    }
+
     /**
      * Generates an abstract parse tree for Tokens corresponding to PROGRAM statements
      * using recursive decent
@@ -46,18 +53,18 @@ public class Parser {
         Token tempToken;
 
 //        currTokenIt = saveTokenIt;
-        tempToken = currTokenIt.next();
+        tempToken = getNextToken();
         if(tempToken.getToken_name() == "RSVP_FUNC_N"){
             node.addChild(new Node(tempToken));
-            tempToken = currTokenIt.next();
+            tempToken = getNextToken();
 
             if(tempToken.getToken_name() == "IDENTIFIER_N"){
                 node.addChild(new Node(tempToken));
-                tempToken = currTokenIt.next();
+                tempToken = getNextToken();
 
                 if(tempToken.getToken_name() == "OPEN_BRACKET_N"){
                     node.addChild(new Node(tempToken));
-                    tempToken = currTokenIt.next();
+                    tempToken = getNextToken();
 
                     if(tempToken.getToken_name() == "CLOSE_BRACKET_N"){
                         node.addChild(new Node(tempToken));
@@ -111,7 +118,7 @@ public class Parser {
 //        node.addChild(tempNode);
 
         //Reference the node we want to revert back to before performing any manipulation
-        this.saveTokenIt = this.currTokenIt;
+        saveTokenIt = currTokenIt;
 
 
 //        this.currTokenIt = this.saveTokenIt;
@@ -123,7 +130,7 @@ public class Parser {
         }
 
         this.currTokenIt = this.saveTokenIt;
-        tempNode = parseAssign();
+        tempNode = parseAssign(tokenLinkedList);
         if(tempNode != null)
         {
             node.addChild(tempNode);
@@ -157,7 +164,7 @@ public class Parser {
 //        if()
 
 
-        node.setRoot(tokenLinkedList.pop());
+//        node.setRoot(tokenLinkedList.pop());
 //        node.setRight(parseBlock(tokenLinkedList));
         return null;
     }
@@ -180,18 +187,18 @@ public class Parser {
      * @return Parent node of local Abstract Parse Tree
      * @throws ParseError Error message contain information about the specific syntax error
      */
-    private Node parseAssign() throws  ParseError {
-         Node node = new Node();
-         Token tempToken;
-//         this.saveTokenIt = this.currTokenIt;
+    private Node parseAssign(LinkedList<Token> list) throws  ParseError {
 
-//         currTokenIt = saveTokenIt;
-            tempToken = this.currTokenIt.next();
+         Node node = new Node("<assignment_statement>");
+         Token tempToken;
+
+            tempToken = currTokenIt.next();
 
             if (tempToken.getToken_name() == "IDENTIFIER_N") {
                 node.addChild(new Node(tempToken));
 
                 tempToken = currTokenIt.next();
+                currTokenPos++;
                 if (tempToken.getToken_name() == "ASSIGNMENT_OPERATOR_N") {
                     node.addChild(new Node(tempToken));
 
@@ -201,8 +208,6 @@ public class Parser {
                     } else throw new ParseError("Expected arithmetic expression");
                 } else throw new ParseError("Expected assignment operator '='");
             } else throw new ParseError("Expected Identifier");
-
-
         return node;
     }
 
@@ -306,7 +311,7 @@ public class Parser {
      * @throws ParseError Error message contain information about the specific syntax error
      */
     private Boolean isArithmeticOp(){
-        switch (this.currTokenIt.next().getToken_name()){
+        switch (getNextToken().getToken_name()){
             case "+":
             case "-":
             case "*":
@@ -354,7 +359,7 @@ public class Parser {
                 Node childNode = currNode.getChild(i);
                 String production;
                 if (childNode.isTerminal) {
-                     production = String.format("%s", childNode.getRoot().getToken_name());
+                     production = String.format("%s", childNode.getRoot().getSequence());
                 } else {
                     production = childNode.getExpression();
                     toVisit.push(childNode);

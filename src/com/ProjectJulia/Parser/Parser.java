@@ -1,6 +1,7 @@
 package com.ProjectJulia.Parser;
 
 import com.ProjectJulia.Scanner.Token;
+import com.ProjectJulia.constant.Identifier;
 
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -188,7 +189,6 @@ public class Parser {
      * @throws ParseError Error message contain information about the specific syntax error
      */
     private Node parseAssign(LinkedList<Token> list) throws  ParseError {
-
          Node node = new Node("<assignment_statement>");
          Token tempToken;
 
@@ -292,10 +292,25 @@ public class Parser {
      * @throws ParseError Error message contain information about the specific syntax error
      */
     private Node parseArithmeticExpression() throws  ParseError {
-        Node node = new Node();
+        Node node = new Node("<arithmetic_expression>");
+        Iterator<Token> saveTokenIt = currTokenIt;
+        Token tempToken;
 
-        return node;
+        tempToken = currTokenIt.next();
+
+        if(tempToken.getToken_name() == "LITERAL_INTEGER_N" ||
+                tempToken.getToken_name() == "IDENTIFIER_N" ||
+                isBinaryExpression()){
+            node.addChild(new Node(tempToken));
+            tempToken = currTokenIt.next();
+
+
+        }
+
+        return null;
     }
+
+
 
 
     private Boolean isBinaryExpression() throws  ParseError {

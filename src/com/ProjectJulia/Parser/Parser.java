@@ -2,47 +2,65 @@ package com.ProjectJulia.Parser;
 
 import com.ProjectJulia.Scanner.Token;
 
+import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
+import java.util.Stack;
 
 public class Parser {
 
     private LinkedList<Token> tokenLinkedList;
+    private Iterator<Token> currTokenIt;
+    private Iterator<Token> saveTokenIt;
 
     public Parser(LinkedList<Token> tokenLinkedList){
         this.tokenLinkedList = tokenLinkedList;
-//        printTokens();
+        currTokenIt = tokenLinkedList.iterator();
+        saveTokenIt = tokenLinkedList.iterator();
+
         try{
-            BuildeSyntaxTree(tokenLinkedList);
+            parse(tokenLinkedList);
         } catch (ParseError parseError){
             System.out.println(parseError);
         }
     }
 
+    private Node parse(LinkedList<Token> tokenLinkedList) throws ParseError{
+        Node node = new Node();
+
+        node = parseProgram();
+        printTree(node);
+
+        return node;
+    }
+
     /**
      * Generates an abstract parse tree for Tokens corresponding to PROGRAM statements
      * using recursive decent
-     * @param tokenLinkedList LinkedList of remaining tokens to be parsed
      * @return Parent node of local Abstract Parse Tree
      * @throws ParseError Error message contain information about the specific syntax error
      */
-    private Node parseProgram(LinkedList<Token> tokenLinkedList) throws  ParseError {
-        Node node = new Node();
-        Node tempNode = node;
-        //Build Left Tree
-        if(tokenLinkedList.peek().getToken_name() == "RSVP_FUNC_N"){
-            node.setRoot(tokenLinkedList.pop());
-            if(tokenLinkedList.peek().getToken_name() == "IDENTIFIER_N"){
-                tempNode.setLeft(new Node());
-                tempNode = tempNode.getLeft();
-                tempNode.setRoot(tokenLinkedList.pop());
-                if(tokenLinkedList.peek().getToken_name() == "OPEN_BRACKET_N"){
-                    tempNode.setLeft(new Node());
-                    tempNode = tempNode.getLeft();
-                    tempNode.setRoot(tokenLinkedList.pop());
-                    if(tokenLinkedList.peek().getToken_name() == "CLOSE_BRACKET_N"){
-                        tempNode.setLeft(new Node());
-                        tempNode = tempNode.getLeft();
-                        tempNode.setRoot(tokenLinkedList.pop());
+    private synchronized Node parseProgram() throws ParseError {
+        Node node = new Node("<program>");
+        saveTokenIt = currTokenIt;
+        Token tempToken;
+
+//        currTokenIt = saveTokenIt;
+        tempToken = currTokenIt.next();
+        if(tempToken.getToken_name() == "RSVP_FUNC_N"){
+            node.addChild(new Node(tempToken));
+            tempToken = currTokenIt.next();
+
+            if(tempToken.getToken_name() == "IDENTIFIER_N"){
+                node.addChild(new Node(tempToken));
+                tempToken = currTokenIt.next();
+
+                if(tempToken.getToken_name() == "OPEN_BRACKET_N"){
+                    node.addChild(new Node(tempToken));
+                    tempToken = currTokenIt.next();
+
+                    if(tempToken.getToken_name() == "CLOSE_BRACKET_N"){
+                        node.addChild(new Node(tempToken));
                     }
                     else throw new ParseError("Expected closing brace");
                 }
@@ -50,80 +68,108 @@ public class Parser {
             }
             else throw new ParseError("Expected Identifier");
         }
-        //Build Right Tree
-        node.setRight(parseBlock(tokenLinkedList));
+        else throw new ParseError("Expected name \'Function\'");
+
+//        saveTokenIt = currTokenIt;
+
+        try{
+            node.addChild(parseBlock());
+        } catch (Exception e){
+            throw new ParseError(e.getMessage());
+        }
+
+
         return node;
     }
+
 
     /**
      * Generates an abstract parse tree for Tokens corresponding to BLOCK statements
      * using recursive decent
-     * @param tokenLinkedList LinkedList of remaining tokens to be parsed
      * @return Parent node of local Abstract Parse Tree
      * @throws ParseError Error message contain information about the specific syntax error
      */
-    private Node parseBlock(LinkedList<Token> tokenLinkedList) throws  ParseError {
-       return parseStatment(tokenLinkedList);
+    private Node parseBlock() throws ParseError {
+        Node node = new Node("<block>");
+        node.addChild(parseStatement());
+        return node;
     }
+
+//    private Boolean checkAllBlockProduction(){
+////        if(parseStatement())
+//    }
 
     /**
      * Generates an abstract parse tree for Tokens corresponding to STATEMENT statements
      * using recursive decent
-     * @param tokenLinkedList LinkedList of remaining tokens to be parsed
      * @return Parent node of local Abstract Parse Tree
      * @throws ParseError Error message contain information about the specific syntax error
      */
-    private Node parseStatment(LinkedList<Token> tokenLinkedList) throws  ParseError{
-        Node node = new Node();
+    private synchronized Node parseStatement() throws  ParseError{
+        Node node = new Node("<statement>");
+        Node tempNode;
+//        node.addChild(tempNode);
 
-        switch (tokenLinkedList.peek().getToken_name()){
-            case "RSVP_IF_N":
-                return parseIf(tokenLinkedList);
+        //Reference the node we want to revert back to before performing any manipulation
+        this.saveTokenIt = this.currTokenIt;
 
-            case "ASSIGNMENT_OPERATOR_N":
-                node.setRoot(tokenLinkedList.pop());
-                return parseAssign(tokenLinkedList);
 
-            case "RSVP_WHIL":
-                node.setRoot(tokenLinkedList.pop());
-
-                break;
-
-            case "RSVP_PRIN":
-                node.setRoot(tokenLinkedList.pop());
-                break;
-
-            case "RSVP_FOR_N":
-                node.setRoot(tokenLinkedList.pop());
-                break;
+//        this.currTokenIt = this.saveTokenIt;
+        tempNode = parseIf();
+        if(tempNode != null)
+        {
+            node.addChild(tempNode);
+            return node;
         }
-        return node;
+
+        this.currTokenIt = this.saveTokenIt;
+        tempNode = parseAssign();
+        if(tempNode != null)
+        {
+            node.addChild(tempNode);
+            return node;
+        }
+
+
+        this.currTokenIt = this.saveTokenIt;
+        tempNode = parseWhile(tempNode);
+        if(tempNode != null) return node;
+
+        this.currTokenIt = this.saveTokenIt;
+        tempNode = parsePrint(tempNode);
+        if(tempNode != null) return node;
+
+        this.currTokenIt = this.saveTokenIt;
+        tempNode = parseFor(tempNode);
+        if(tempNode != null) return node;
+
+        return null;
     }
 
     /**
      * Generates an abstract parse tree for Tokens corresponding to IF statements
      * using recursive decent
-     * @param tokenLinkedList LinkedList of remaining tokens to be parsed
      * @return Parent node of local Abstract Parse Tree
      * @throws ParseError Error message contain information about the specific syntax error
      */
-    private Node parseIf(LinkedList<Token> tokenLinkedList) throws  ParseError {
+    private Node parseIf() throws ParseError {
         Node node = new Node();
+//        if()
+
+
         node.setRoot(tokenLinkedList.pop());
-        node.setLeft(parseBooleanExpression(tokenLinkedList));
-        node.setRight(parseBlock(tokenLinkedList));
-        return node;
+//        node.setRight(parseBlock(tokenLinkedList));
+        return null;
     }
 
     /**
      * Generates an abstract parse tree for Tokens corresponding to WHILE statements
      * using recursive decent
-     * @param tokenLinkedList LinkedList of remaining tokens to be parsed
      * @return Parent node of local Abstract Parse Tree
      * @throws ParseError Error message contain information about the specific syntax error
      */
-    private Node parseWhile(LinkedList<Token> tokenLinkedList) throws  ParseError {
-        Node node = new Node();
+    private Node parseWhile(Node node) throws  ParseError {
+         node = new Node();
 
         return node;
     }
@@ -131,12 +177,31 @@ public class Parser {
     /**
      * Generates an abstract parse tree for Tokens corresponding to ASSIGN statements
      * using recursive decent
-     * @param tokenLinkedList LinkedList of remaining tokens to be parsed
      * @return Parent node of local Abstract Parse Tree
      * @throws ParseError Error message contain information about the specific syntax error
      */
-    private Node parseAssign(LinkedList<Token> tokenLinkedList) throws  ParseError {
-        Node node = new Node();
+    private Node parseAssign() throws  ParseError {
+         Node node = new Node();
+         Token tempToken;
+//         this.saveTokenIt = this.currTokenIt;
+
+//         currTokenIt = saveTokenIt;
+            tempToken = this.currTokenIt.next();
+
+            if (tempToken.getToken_name() == "IDENTIFIER_N") {
+                node.addChild(new Node(tempToken));
+
+                tempToken = currTokenIt.next();
+                if (tempToken.getToken_name() == "ASSIGNMENT_OPERATOR_N") {
+                    node.addChild(new Node(tempToken));
+
+                    Node tempNode = parseArithmeticExpression();
+                    if (tempNode != null) {
+                        node.addChild(tempNode);
+                    } else throw new ParseError("Expected arithmetic expression");
+                } else throw new ParseError("Expected assignment operator '='");
+            } else throw new ParseError("Expected Identifier");
+
 
         return node;
     }
@@ -144,12 +209,11 @@ public class Parser {
     /**
      * Generates an abstract parse tree for Tokens corresponding to FOR statements
      * using recursive decent
-     * @param tokenLinkedList LinkedList of remaining tokens to be parsed
      * @return Parent node of local Abstract Parse Tree
      * @throws ParseError Error message contain information about the specific syntax error
      */
-    private Node parseFor(LinkedList<Token> tokenLinkedList) throws  ParseError {
-        Node node = new Node();
+    private Node parseFor(Node node) throws  ParseError {
+         node = new Node();
 
         return node;
     }
@@ -157,12 +221,11 @@ public class Parser {
     /**
      * Generates an abstract parse tree for Tokens corresponding to PRINT statements
      * using recursive decent
-     * @param tokenLinkedList LinkedList of remaining tokens to be parsed
      * @return Parent node of local Abstract Parse Tree
      * @throws ParseError Error message contain information about the specific syntax error
      */
-    private Node parsePrint(LinkedList<Token> tokenLinkedList) throws  ParseError {
-        Node node = new Node();
+    private Node parsePrint(Node node) throws  ParseError {
+         node = new Node();
 
         return node;
     }
@@ -220,37 +283,30 @@ public class Parser {
 
     /**
      * Determines if  next token is an ARITHMETIC Operator.
-     * @param tokenLinkedList LinkedList of remaining tokens to be parsed
      * @return Returns true if next token of a ARITHMETIC Operator.
      * @throws ParseError Error message contain information about the specific syntax error
      */
-    private Node parseArithmeticExpression(LinkedList<Token> tokenLinkedList) throws  ParseError {
+    private Node parseArithmeticExpression() throws  ParseError {
         Node node = new Node();
 
         return node;
     }
 
-    /**
-     * Generates an abstract parse tree for Tokens corresponding to BINARY EXPRESSION statements
-     * using recursive decent
-     * @param tokenLinkedList LinkedList of remaining tokens to be parsed
-     * @return Parent node of local Abstract Parse Tree
-     * @throws ParseError Error message contain information about the specific syntax error
-     */
-    private Node parseBinaryExpression(LinkedList<Token> tokenLinkedList) throws  ParseError {
-        Node node = new Node();
 
-        return node;
+    private Boolean isBinaryExpression() throws  ParseError {
+        if(isArithmeticOp() && parseArithmeticExpression() != null && parseArithmeticExpression() != null){
+            return true;
+        }
+        return false;
     }
 
     /**
      * Determines if  next token is an ARITHMETIC Operator.
-     * @param tokenLinkedList LinkedList of remaining tokens to be parsed
      * @return Returns true if next token of a ARITHMETIC Operator.
      * @throws ParseError Error message contain information about the specific syntax error
      */
-    private Boolean parseArithmeticOp(LinkedList<Token> tokenLinkedList){
-        switch (tokenLinkedList.peek().getToken_name()){
+    private Boolean isArithmeticOp(){
+        switch (this.currTokenIt.next().getToken_name()){
             case "+":
             case "-":
             case "*":
@@ -264,47 +320,49 @@ public class Parser {
     /**
      * Generates an abstract parse tree for Tokens corresponding to FUNCTION statements
      * using recursive decent
-     * @param tokenLinkedList LinkedList of remaining tokens to be parsed
+//     * @param tokenLinkedList LinkedList of remaining tokens to be parsed
      * @return Parent node of local Abstract Parse Tree
      * @throws ParseError Error message contain information about the specific syntax error
      */
     private Node parseFunction(LinkedList<Token> tokenLinkedList) throws ParseError{
         Node node = new Node();
-        if(tokenLinkedList.peek().getToken_name() == "RSVP_FUNC_N"){
-            node.setRoot(tokenLinkedList.pop());
-            if(tokenLinkedList.peek().getToken_name() == "IDENTIFIER_N"){
-                node.setLeft(new Node(tokenLinkedList.pop()));
-            } else{
-                throw new ParseError("Expected Identifier after function definition");
-            }
-        }
-        return node;
-    }
-
-
-
-    private Node BuildeSyntaxTree(LinkedList<Token> tokenLinkedList) throws ParseError{
-        Node node;
-        String parseOutput = "";
-
-        node = this.parseProgram(tokenLinkedList);
-        if(node != null){
-            parseOutput += "<program> -> ";
-        }
 //        if(tokenLinkedList.peek().getToken_name() == "RSVP_FUNC_N"){
-//            Node exp = new Node(tokenLinkedList.pop());
-//
-//            return expressionTree(tokenLinkedList, exp);
-//        } else{
-//            throw new ParseError("Syntax Unrecognized");
+//            node.setRoot(tokenLinkedList.pop());
+//            if(tokenLinkedList.peek().getToken_name() == "IDENTIFIER_N"){
+//                node.setLeft(new Node(tokenLinkedList.pop()));
+//            } else{
+//                throw new ParseError("Expected Identifier after function definition");
+//            }
 //        }
-        System.out.println(parseOutput);
-        printNodes(node);
         return node;
     }
 
-    private void printNodes(Node node){
 
+    /**
+     * Prints a row of the parse tree.
+     * The next row printed is that of the leftmost non-terminal.
+     * @param root Root node of the tree
+     */
+    private void printTree(Node root){
+        Stack<Node> toVisit = new Stack();
+        toVisit.push(root);
+        do {
+            String row = "";
+            Node currNode = toVisit.pop();
+            row += String.format("%s -> ", currNode.getExpression());
+            for (int i = 0; i < currNode.getChildren().size(); i++) {
+                Node childNode = currNode.getChild(i);
+                String production;
+                if (childNode.isTerminal) {
+                     production = String.format("%s", childNode.getRoot().getToken_name());
+                } else {
+                    production = childNode.getExpression();
+                    toVisit.push(childNode);
+                }
+                row += String.format("%s ", production);
+            }
+            System.out.println(row);
+        } while (toVisit.isEmpty() == false);
     }
 
     private static Node BuildeSyntaxTree(LinkedList<Token> tokenLinkedList, Node tree) throws ParseError{

@@ -162,11 +162,7 @@ public class Parser {
      */
     private Node parseIf() throws ParseError {
         Node node = new Node();
-//        if()
 
-
-//        node.setRoot(tokenLinkedList.pop());
-//        node.setRight(parseBlock(tokenLinkedList));
         return null;
     }
 
@@ -219,8 +215,34 @@ public class Parser {
      */
     private Node parseFor(Node node) throws  ParseError {
          node = new Node();
-
+         Token tempToken;
+            tempToken = getNextToken();
+            if(tempToken.getToken_name() == "IDENTIFIER_N"){
+                node.addChild(new Node(tempToken));
+                tempToken = getNextToken();
+                if(tempToken.getToken_name() == "ASSIGNMENT_OPERATOR_N"){
+                    node.addChild(new Node(tempToken));
+                    tempToken = getNextToken();
+                }
+                else throw new ParseError("Expected Assignment");
+            }
+            else throw new ParseError("Expected Identifier");
         return node;
+    }
+
+    /**
+     * Generates an abstract parse tree for Tokens corresponding to ITER statements
+     * using recursive decent
+     * @return Parent node of local Abstract Parse Tree
+     * @throws ParseError Error message contain information about the specific syntax error
+     */
+    private Node parseIter(Node node) throws ParseError {
+        node = new Node();
+        Token tempToken;
+        tempToken = getNextToken();
+        parseArithmeticExpression();
+        tempToken = getNextToken();
+        if(tempToken ==)
     }
 
     /**
@@ -303,11 +325,9 @@ public class Parser {
                 isBinaryExpression()){
             node.addChild(new Node(tempToken));
             tempToken = currTokenIt.next();
-
-
+            return node;
         }
-
-        return null;
+        else throw new ParseError("Expected Literal Integer, Identifier, or Binary Expression");
     }
 
 

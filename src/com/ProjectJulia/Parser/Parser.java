@@ -21,7 +21,7 @@ public class Parser {
         saveTokenIt = currTokenIt;
 //        saveTokenIt = tokenLinkedList.iterator();
 
-        try{
+        try {
             parse(tokenLinkedList);
         } catch (ParseError parseError){
             System.out.println(parseError);
@@ -138,7 +138,6 @@ public class Parser {
             return node;
         }
 
-
         this.currTokenIt = this.saveTokenIt;
         tempNode = parseWhile(tempNode);
         if(tempNode != null) return node;
@@ -191,7 +190,6 @@ public class Parser {
     private Node parseAssign(LinkedList<Token> list) throws  ParseError {
          Node node = new Node("<assignment_statement>");
          Token tempToken;
-
             tempToken = currTokenIt.next();
 
             if (tempToken.getToken_name() == "IDENTIFIER_N") {
@@ -264,7 +262,6 @@ public class Parser {
         else{
             throw new ParseError("Expected operator");
         }
-
         return node;
     }
 
@@ -303,11 +300,8 @@ public class Parser {
                 isBinaryExpression()){
             node.addChild(new Node(tempToken));
             tempToken = currTokenIt.next();
-
-
         }
-
-        return null;
+        return node;
     }
 
 

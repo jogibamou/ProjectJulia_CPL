@@ -1,21 +1,25 @@
+// =============================================================================
+// Author(s): Giovanni Bamou Nana
+// Course:    CS 4308 Section 2
+// Instr:     Deepa Murallidar
+// Project:   2nd Deliverable
+// File:      Node.java
+// =============================================================================
+// Description:
+// This file is the implementation of the Node class.
+// =============================================================================
+
 package com.ProjectJulia.Parser;
 
 import com.ProjectJulia.Scanner.Token;
-import guru.nidi.graphviz.attribute.Color;
-import guru.nidi.graphviz.attribute.Rank;
-import guru.nidi.graphviz.attribute.Style;
-import guru.nidi.graphviz.engine.Format;
-import guru.nidi.graphviz.engine.Graphviz;
-import guru.nidi.graphviz.model.Graph;
 
 import java.io.File;
 import java.util.ArrayList;
 
-import static guru.nidi.graphviz.attribute.RankDir.LEFT_TO_RIGHT;
-import static guru.nidi.graphviz.model.Factory.graph;
-import static guru.nidi.graphviz.model.Factory.node;
-
-
+/**
+*
+* @author Giovanni Bamou Nana #000855399
+*/
 public class Node {
 
     public boolean isTerminal = true;

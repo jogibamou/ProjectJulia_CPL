@@ -1,5 +1,20 @@
+// =============================================================================
+// Author(s): Giovanni Bamou Nana
+// Course:    CS 4308 Section 2
+// Instr:     Deepa Murallidar
+// Project:   1st Deliverable
+// File:      Token.java
+// =============================================================================
+// Description:
+// This file is the implementation of the Token class.
+// =============================================================================
+
 package com.ProjectJulia.Scanner;
 
+/**
+*
+* @author Giovanni Bamou Nana #000855399
+*/
 public class Token {
 	
 	private int token;

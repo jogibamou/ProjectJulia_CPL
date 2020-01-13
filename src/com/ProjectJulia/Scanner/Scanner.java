@@ -1,8 +1,20 @@
+// =============================================================================
+// Author(s): Giovanni Bamou Nana
+// Course:    CS 4308 Section 2
+// Instr:     Deepa Murallidar
+// Project:   1st Deliverable
+// File:      Scanner.java
+// =============================================================================
+// Description:
+// This file is the implementation of the Scanner class.
+// =============================================================================
+
+
 package com.ProjectJulia.Scanner;
 
 import com.ProjectJulia.ExceptionPack.ParserException;
 import com.ProjectJulia.Parser.Parser;
-
+import com.ProjectJulia.Executer.Executer;
 import java.io.BufferedReader;
 import java.io.EOFException;
 import java.io.File;
@@ -10,8 +22,12 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.LinkedList;
-//import com.ProjectJulia.Parser.Parser;
+import java.util.LinkedList;
 
+/**
+*
+* @author Giovanni Bamou Nana #000855399
+*/
 public class Scanner {
 	private File filename;
     private Tokenizer tokenizer;
@@ -65,27 +81,17 @@ public class Scanner {
     private void scan() throws IOException {
 	
         FileInputStream fis = new FileInputStream(this.filename);
-
- 
-	BufferedReader br = new BufferedReader(new InputStreamReader(fis));
- 
-	String line = null;
+        BufferedReader br = new BufferedReader(new InputStreamReader(fis));
+        String line = null;
         int row_number = 1;
-	while ((line = br.readLine()) != null) {
-		tokenizer.tokenize(line,row_number);
-                row_number++;
-	}
- 
-	br.close();
-        
-        System.out.println("\n\n\n//===================================="
-                + "====//\n  Scanner Result\n//=========================="
-                + "==============//\n\n");
+        while ((line = br.readLine()) != null) {
+        	tokenizer.tokenize(line,row_number);
+        	row_number++;
+        }
+        br.close();
         printTokens();
-        /*System.out.println("\n\n\n//===================================="
-                + "====//\n  Parser Result\n//=========================="
-                + "==============//\n\n");
-        */
+
+
     }
     
     // =========================================================================
@@ -142,12 +148,29 @@ public class Scanner {
         //if(args.length==2){
     	if(true){
             try{
-                Scanner scan = new Scanner("test1.jl");
-                Parser parse = new Parser(scan.getTokenList());
+            	
+            	System.out.println("\n\n\n//===================================="
+                        + "====//\n  Scanner Result\n//=========================="
+                        + "==============//\n\n");
+            	
+                Scanner scan = new Scanner("test4.jl");
+                
+//                System.out.println("\n\n\n//===================================="
+//                        + "====//\n  Parser Result\n//=========================="
+//                        + "==============//\n\n");
+//            	
+//                Parser parse = new Parser(scan.getTokenList());
+                
+                System.out.println("\n\n\n//===================================="
+                        + "====//\n  Executer Result\n//=========================="
+                        + "==============//\n\n");
+                
+                Executer exe = new Executer(scan.getTokenList());
+
             }
             catch(ParserException e){
                 System.out.println(e.getMessage());
-            }
+            } 
         }
         else{
             System.out.println("\n\n ===> Error while reading. No file as "
